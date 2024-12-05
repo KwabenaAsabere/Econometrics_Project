@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.553">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="GROUP 10">
+
+<title>GROUP 10 - Asabere Asante, Jonathan Smith , Jimmy Stevens, Jack Jurkovich</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="notebook_GP1-1_files/libs/clipboard/clipboard.min.js"></script>
+<script src="notebook_GP1-1_files/libs/quarto-html/quarto.js"></script>
+<script src="notebook_GP1-1_files/libs/quarto-html/popper.min.js"></script>
+<script src="notebook_GP1-1_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="notebook_GP1-1_files/libs/quarto-html/anchor.min.js"></script>
+<link href="notebook_GP1-1_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="notebook_GP1-1_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="notebook_GP1-1_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="notebook_GP1-1_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="notebook_GP1-1_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><strong>GROUP 10 - Asabere Asante, Jonathan Smith , Jimmy Stevens, Jack Jurkovich</strong></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>GROUP 10 </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="group-project-1.-capm-and-factor-models" class="level1">
+<h1>Group Project 1. CAPM and factor models</h1>
+<p>Import data from returns.xlsx</p>
+<p>Variables:</p>
+<p>Sector portfolio excess returns (return minus the risk free rate)</p>
+<p>BMATRUSER Building materials</p>
+<p>INDUSUSER Industrials</p>
+<p>CNSMGUSER Consumer goods</p>
+<p>FINANUSER Financials</p>
+<p>TECNOUSER Technology</p>
+<p>MktRF: Market return - risk free rate</p>
+<p>SMB Fama-French Small minus Big</p>
+<p>HML Fama- French High minus Low</p>
+<p>RF risk free rate</p>
+<p>Q1.</p>
+<ol type="a">
+<li><p>(5 points) Estimate CAPM regressions for each of the 5 portfolios.</p></li>
+<li><p>(2 points) Which portfolio excess return exhibits the highest sensitivity to systematic risk and why?</p></li>
+<li><p>(5 points) Which portfolios excess return is higher than that implied by the CAPM</p></li>
+<li><p>(2 points) Is the CAPM rejected, and why?</p></li>
+</ol>
+<div id="cell-5" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.stats.diagnostic <span class="im">as</span> diag</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> statsmodels.stats.stattools <span class="im">import</span> durbin_watson</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scipy.stats <span class="im">as</span> stats</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-6" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pd.read_excel(<span class="vs">r"C:\Users\KAsab\Desktop\Econometrics_Project\returns-1.xlsx"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol type="a">
+<li>(5 points) Estimate CAPM regressions for each of the 5 portfolios.</li>
+</ol>
+<div id="cell-8" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># List of portfolio returns</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>portfolios <span class="op">=</span> [<span class="st">'BMATRUSER'</span>, <span class="st">'INDUSUSER'</span>, <span class="st">'CNSMGUSER'</span>, <span class="st">'FINANUSER'</span>, <span class="st">'TECNOUSER'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-9" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Variables</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>MktRF <span class="op">=</span> data[<span class="st">'Mkt-RF'</span>]</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>RF <span class="op">=</span> data[<span class="st">'RF'</span>]</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>SMB <span class="op">=</span> data[<span class="st">'SMB'</span>]</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>HML <span class="op">=</span> data[<span class="st">'HML'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-10" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># CAPM Regression for each portfolio</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>capm_results <span class="op">=</span> {}</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> portfolio <span class="kw">in</span> portfolios:</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    excess_return <span class="op">=</span> data[portfolio] <span class="op">-</span> RF</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    X <span class="op">=</span> sm.add_constant(MktRF)  <span class="co"># Add constant for α</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    model <span class="op">=</span> sm.OLS(excess_return, X).fit()</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    capm_results[portfolio] <span class="op">=</span> model</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-11" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> portfolio, model <span class="kw">in</span> capm_results.items():</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Summary for </span><span class="sc">{</span>portfolio<span class="sc">}</span><span class="ss">:"</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(model.summary())</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span> <span class="op">+</span> <span class="st">"="</span><span class="op">*</span><span class="dv">80</span> <span class="op">+</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)  <span class="co"># Separator for readability</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Summary for BMATRUSER:
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:                      y   R-squared:                       0.004
+Model:                            OLS   Adj. R-squared:                  0.002
+Method:                 Least Squares   F-statistic:                     1.914
+Date:                Wed, 04 Dec 2024   Prob (F-statistic):              0.167
+Time:                        21:30:02   Log-Likelihood:                -1728.5
+No. Observations:                 532   AIC:                             3461.
+Df Residuals:                     530   BIC:                             3470.
+Df Model:                           1                                         
+Covariance Type:            nonrobust                                         
+==============================================================================
+                 coef    std err          t      P&gt;|t|      [0.025      0.975]
+------------------------------------------------------------------------------
+const          0.3644      0.274      1.330      0.184      -0.174       0.903
+Mkt-RF         0.0855      0.062      1.383      0.167      -0.036       0.207
+==============================================================================
+Omnibus:                       41.328   Durbin-Watson:                   2.077
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):              186.325
+Skew:                          -0.028   Prob(JB):                     3.47e-41
+Kurtosis:                       5.899   Cond. No.                         4.49
+==============================================================================
+
+Notes:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+
+================================================================================
+
+Summary for INDUSUSER:
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:                      y   R-squared:                       0.008
+Model:                            OLS   Adj. R-squared:                  0.006
+Method:                 Least Squares   F-statistic:                     4.362
+Date:                Wed, 04 Dec 2024   Prob (F-statistic):             0.0372
+Time:                        21:30:02   Log-Likelihood:                -1646.6
+No. Observations:                 532   AIC:                             3297.
+Df Residuals:                     530   BIC:                             3306.
+Df Model:                           1                                         
+Covariance Type:            nonrobust                                         
+==============================================================================
+                 coef    std err          t      P&gt;|t|      [0.025      0.975]
+------------------------------------------------------------------------------
+const          0.5432      0.235      2.314      0.021       0.082       1.005
+Mkt-RF         0.1107      0.053      2.089      0.037       0.007       0.215
+==============================================================================
+Omnibus:                       37.025   Durbin-Watson:                   2.071
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):              100.631
+Skew:                          -0.309   Prob(JB):                     1.41e-22
+Kurtosis:                       5.039   Cond. No.                         4.49
+==============================================================================
+
+Notes:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+
+================================================================================
+
+Summary for CNSMGUSER:
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:                      y   R-squared:                       0.001
+Model:                            OLS   Adj. R-squared:                 -0.001
+Method:                 Least Squares   F-statistic:                    0.4039
+Date:                Wed, 04 Dec 2024   Prob (F-statistic):              0.525
+Time:                        21:30:02   Log-Likelihood:                -1624.0
+No. Observations:                 532   AIC:                             3252.
+Df Residuals:                     530   BIC:                             3261.
+Df Model:                           1                                         
+Covariance Type:            nonrobust                                         
+==============================================================================
+                 coef    std err          t      P&gt;|t|      [0.025      0.975]
+------------------------------------------------------------------------------
+const          0.3028      0.225      1.345      0.179      -0.139       0.745
+Mkt-RF         0.0323      0.051      0.636      0.525      -0.068       0.132
+==============================================================================
+Omnibus:                       41.388   Durbin-Watson:                   1.848
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):              138.308
+Skew:                          -0.276   Prob(JB):                     9.27e-31
+Kurtosis:                       5.436   Cond. No.                         4.49
+==============================================================================
+
+Notes:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+
+================================================================================
+
+Summary for FINANUSER:
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:                      y   R-squared:                       0.014
+Model:                            OLS   Adj. R-squared:                  0.012
+Method:                 Least Squares   F-statistic:                     7.266
+Date:                Wed, 04 Dec 2024   Prob (F-statistic):            0.00725
+Time:                        21:30:02   Log-Likelihood:                -1673.0
+No. Observations:                 532   AIC:                             3350.
+Df Residuals:                     530   BIC:                             3358.
+Df Model:                           1                                         
+Covariance Type:            nonrobust                                         
+==============================================================================
+                 coef    std err          t      P&gt;|t|      [0.025      0.975]
+------------------------------------------------------------------------------
+const          0.4376      0.247      1.773      0.077      -0.047       0.922
+Mkt-RF         0.1501      0.056      2.696      0.007       0.041       0.260
+==============================================================================
+Omnibus:                       67.333   Durbin-Watson:                   2.049
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):              244.318
+Skew:                          -0.530   Prob(JB):                     8.85e-54
+Kurtosis:                       6.146   Cond. No.                         4.49
+==============================================================================
+
+Notes:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+
+================================================================================
+
+Summary for TECNOUSER:
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:                      y   R-squared:                       0.006
+Model:                            OLS   Adj. R-squared:                  0.004
+Method:                 Least Squares   F-statistic:                     3.004
+Date:                Wed, 04 Dec 2024   Prob (F-statistic):             0.0836
+Time:                        21:30:02   Log-Likelihood:                -1774.1
+No. Observations:                 532   AIC:                             3552.
+Df Residuals:                     530   BIC:                             3561.
+Df Model:                           1                                         
+Covariance Type:            nonrobust                                         
+==============================================================================
+                 coef    std err          t      P&gt;|t|      [0.025      0.975]
+------------------------------------------------------------------------------
+const          0.6393      0.298      2.142      0.033       0.053       1.226
+Mkt-RF         0.1168      0.067      1.733      0.084      -0.016       0.249
+==============================================================================
+Omnibus:                       18.459   Durbin-Watson:                   2.114
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):               41.272
+Skew:                          -0.089   Prob(JB):                     1.09e-09
+Kurtosis:                       4.353   Cond. No.                         4.49
+==============================================================================
+
+Notes:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+
+================================================================================
+</code></pre>
+</div>
+</div>
+<p>Q1.</p>
+<ol start="2" type="a">
+<li>(2 points) Which portfolio excess return exhibits the highest sensitivity to systematic risk and why?</li>
+</ol>
+<p>The FINANUSER portfolio has the highest beta (Mkt-RF = 0.1501) among the portfolios. This indicates that its excess returns are most sensitive to systematic risk, as it has the strongest positive relationship with the market risk premium.</p>
+<ol start="3" type="a">
+<li>(5 points) Which portfolios excess return is higher than that implied by the CAPM</li>
+</ol>
+<p>From the summaries, the intercept (const) for INDUSUSER (0.5432, p-value = 0.021) is significant. This indicates that the INDUSUSER portfolio has excess returns higher than those predicted by the CAPM.</p>
+<ol start="4" type="a">
+<li>(2 points) Is the CAPM rejected, and why? The CAPM is rejected because it fails to fully explain the variation in excess returns for the portfolios, as evidenced by the very low R-squared values across all regressions, indicating poor explanatory power. Additionally, the significant intercept for the INDUSUSER portfolio (p-value = 0.021) suggests that its excess returns are higher than what the CAPM predicts.These factors collectively indicate that the CAPM does not adequately capture the risk-return relationship for the portfolios analyzed</li>
+</ol>
+<p>Q2. (2 points) Do the residuals of the CAPM regression for INDUSUSER appear to be distributed normally, and why?</p>
+<div id="cell-19" class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Residual analysis for 'INDUSUSER'</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>indus_model <span class="op">=</span> capm_results[<span class="st">'INDUSUSER'</span>]</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>residuals <span class="op">=</span> indus_model.resid</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-20" class="cell" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">5</span>))</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>sns.histplot(residuals, bins<span class="op">=</span><span class="dv">30</span>, color<span class="op">=</span><span class="st">'blue'</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Histogram of Residuals'</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Residuals'</span>)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Frequency'</span>)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="notebook_GP1-1_files/figure-html/cell-11-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="cell-21" class="cell" data-execution_count="26">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">5</span>))</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>stats.probplot(residuals, dist<span class="op">=</span><span class="st">"norm"</span>, plot<span class="op">=</span>plt)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Q-Q Plot of Residuals'</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="notebook_GP1-1_files/figure-html/cell-12-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The residuals of the CAPM regression for INDUSUSER appear approximately normally distributed, as indicated by the bell-shaped histogram and the Q-Q plot, where most points align closely with the diagonal line. However, there are noticeable deviations in the tails of the Q-Q plot, suggesting potential non-normality at the extremes, possibly due to outliers or heavy tails</p>
+<p>Q3. (2 points). Do the residuals of the CAPM regression for INDUSUSER appear to exhibit heteroskedasticity?</p>
+<div id="cell-24" class="cell" data-execution_count="29">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>residuals <span class="op">=</span> indus_model.resid</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>fitted_values <span class="op">=</span> indus_model.fittedvalues</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-25" class="cell" data-execution_count="30">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">5</span>))</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>plt.scatter(fitted_values, residuals, alpha<span class="op">=</span><span class="fl">0.7</span>, color<span class="op">=</span><span class="st">'blue'</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>plt.axhline(<span class="dv">0</span>, color<span class="op">=</span><span class="st">'red'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, linewidth<span class="op">=</span><span class="dv">1</span>)  <span class="co"># Horizontal line at y=0</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Residuals vs. Fitted Values for INDUSUSER'</span>)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Fitted Values'</span>)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Residuals'</span>)</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="notebook_GP1-1_files/figure-html/cell-14-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The Residuals vs.&nbsp;Fitted Values plot for INDUSUSER shows residuals scattered around zero without a clear pattern, suggesting that the variance of residuals remains relatively constant across fitted values. There is no visible cone or systematic pattern indicating heteroskedasticity. However, some outliers are present, which may warrant further investigation. Based on the plot alone, there does not appear to be strong evidence of heteroskedasticity in the residuals.</p>
+<p>Q4. (2 points) Do the residuals of of the CAPM regression for INDUSUSER exhibit autocorrelation?</p>
+<div id="cell-29" class="cell" data-execution_count="31">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>sm.graphics.tsa.plot_acf(indus_model.resid, lags<span class="op">=</span><span class="dv">40</span>, alpha<span class="op">=</span><span class="fl">0.05</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Autocorrelation Plot of Residuals for INDUSUSER'</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Lags'</span>)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Autocorrelation'</span>)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="notebook_GP1-1_files/figure-html/cell-16-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The autocorrelation plot (ACF) of residuals for <code>INDUSUSER</code> shows that the autocorrelation at lag 0 is, as expected, 1, but for all other lags, the autocorrelation values fall well within the confidence intervals. This suggests that the residuals do not exhibit significant autocorrelation. Consequently, the assumption of independence of residuals is satisfied, and there is no evidence of autocorrelation in the residuals of the CAPM regression for <code>INDUSUSER</code>.</p>
+<p>Q5.</p>
+<ol type="a">
+<li>(2 points) Compute the HAC (Newey-West) standard errors for the CAPM regressions of INDUSUSER and FINANUSER.</li>
+</ol>
+<div id="cell-33" class="cell" data-execution_count="32">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute HAC standard errors for INDUSUSER</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>indus_hac_se <span class="op">=</span> indus_model.get_robustcov_results(cov_type<span class="op">=</span><span class="st">'HAC'</span>, maxlags<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"HAC Standard Errors for INDUSUSER:"</span>)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(indus_hac_se.summary())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>HAC Standard Errors for INDUSUSER:
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:                      y   R-squared:                       0.008
+Model:                            OLS   Adj. R-squared:                  0.006
+Method:                 Least Squares   F-statistic:                     3.085
+Date:                Wed, 04 Dec 2024   Prob (F-statistic):             0.0796
+Time:                        20:46:56   Log-Likelihood:                -1646.6
+No. Observations:                 532   AIC:                             3297.
+Df Residuals:                     530   BIC:                             3306.
+Df Model:                           1                                         
+Covariance Type:                  HAC                                         
+==============================================================================
+                 coef    std err          t      P&gt;|t|      [0.025      0.975]
+------------------------------------------------------------------------------
+const          0.5432      0.235      2.314      0.021       0.082       1.004
+Mkt-RF         0.1107      0.063      1.756      0.080      -0.013       0.235
+==============================================================================
+Omnibus:                       37.025   Durbin-Watson:                   2.071
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):              100.631
+Skew:                          -0.309   Prob(JB):                     1.41e-22
+Kurtosis:                       5.039   Cond. No.                         4.49
+==============================================================================
+
+Notes:
+[1] Standard Errors are heteroscedasticity and autocorrelation robust (HAC) using 1 lags and without small sample correction</code></pre>
+</div>
+</div>
+<div id="cell-34" class="cell" data-execution_count="33">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute HAC standard errors for FINANUSER</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>finan_model <span class="op">=</span> capm_results[<span class="st">'FINANUSER'</span>]  <span class="co"># Access the FINANUSER model from the dictionary</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>finan_hac_se <span class="op">=</span> finan_model.get_robustcov_results(cov_type<span class="op">=</span><span class="st">'HAC'</span>, maxlags<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">HAC Standard Errors for FINANUSER:"</span>)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(finan_hac_se.summary())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+HAC Standard Errors for FINANUSER:
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:                      y   R-squared:                       0.014
+Model:                            OLS   Adj. R-squared:                  0.012
+Method:                 Least Squares   F-statistic:                     6.201
+Date:                Wed, 04 Dec 2024   Prob (F-statistic):             0.0131
+Time:                        20:47:20   Log-Likelihood:                -1673.0
+No. Observations:                 532   AIC:                             3350.
+Df Residuals:                     530   BIC:                             3358.
+Df Model:                           1                                         
+Covariance Type:                  HAC                                         
+==============================================================================
+                 coef    std err          t      P&gt;|t|      [0.025      0.975]
+------------------------------------------------------------------------------
+const          0.4376      0.243      1.797      0.073      -0.041       0.916
+Mkt-RF         0.1501      0.060      2.490      0.013       0.032       0.269
+==============================================================================
+Omnibus:                       67.333   Durbin-Watson:                   2.049
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):              244.318
+Skew:                          -0.530   Prob(JB):                     8.85e-54
+Kurtosis:                       6.146   Cond. No.                         4.49
+==============================================================================
+
+Notes:
+[1] Standard Errors are heteroscedasticity and autocorrelation robust (HAC) using 1 lags and without small sample correction</code></pre>
+</div>
+</div>
+<ol start="2" type="a">
+<li>(4 points) How the differences between the HAC standard errors and the OLS standard errors change the evaluation of significance at 5% level of the MktRF variable for each of the two portfolios?</li>
+</ol>
+<p>The HAC (Newey-West) standard errors adjust for heteroscedasticity and autocorrelation, leading to changes in the significance of the <code>Mkt-RF</code> variable. For the <code>INDUSUSER</code> portfolio, the HAC adjustment increases the standard error from 0.053 to 0.063, resulting in a p-value increase from 0.037 to 0.080, making the <code>Mkt-RF</code> variable no longer significant at the 5% level. Conversely, for the <code>FINANUSER</code> portfolio, the standard error increases slightly from 0.056 to 0.060, with the p-value rising from 0.007 to 0.013, but the <code>Mkt-RF</code> variable remains significant at the 5% level. Thus, while HAC adjustments reduce the strength of evidence for significance, only the <code>INDUSUSER</code> portfolio loses statistical significance.</p>
+<p>Q6. (2 points) Compute the correlation matrix of MktRF, SMB, and HML. Can the correlation of MktRF with SMB and HML be viewed as small?</p>
+<div id="cell-39" class="cell" data-execution_count="35">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute the correlation matrix</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>variables <span class="op">=</span> data[[<span class="st">'Mkt-RF'</span>, <span class="st">'SMB'</span>, <span class="st">'HML'</span>]]  <span class="co"># Extract relevant variables</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>correlation_matrix <span class="op">=</span> variables.corr()</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the correlation matrix</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Correlation Matrix:"</span>)</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(correlation_matrix)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Correlation Matrix:
+          Mkt-RF       SMB       HML
+Mkt-RF  1.000000  0.240693 -0.256574
+SMB     0.240693  1.000000 -0.221198
+HML    -0.256574 -0.221198  1.000000</code></pre>
+</div>
+</div>
+<p>The correlation matrix indicates moderate relationships between <code>Mkt-RF</code> and the other two factors, with a correlation of 0.2407 with <code>SMB</code> and -0.2566 with <code>HML</code>. These values are not close to zero, meaning the correlations cannot be considered small. While they do not indicate strong dependencies, the moderate correlations suggest some interaction between <code>Mkt-RF</code> and the other factors, which may have implications for multicollinearity in regression models.</p>
+<p>Q7.</p>
+<p>Estimate a multivariate regression adding SMB and HML to the CAPM regressions for each of the 5 portfoliosa. (5 points)</p>
+<div id="cell-43" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Multivariate Regression (CAPM + SMB + HML)</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>multivariate_results <span class="op">=</span> {}</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> portfolio <span class="kw">in</span> portfolios:</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    excess_return <span class="op">=</span> data[portfolio] <span class="op">-</span> RF</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>    X <span class="op">=</span> data[[<span class="st">'Mkt-RF'</span>, <span class="st">'SMB'</span>, <span class="st">'HML'</span>]]</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>    X <span class="op">=</span> sm.add_constant(X) </span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>    model <span class="op">=</span> sm.OLS(excess_return, X).fit()</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>    multivariate_results[portfolio] <span class="op">=</span> model</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-44" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> portfolio, model <span class="kw">in</span> multivariate_results.items():</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Summary for </span><span class="sc">{</span>portfolio<span class="sc">}</span><span class="ss">:"</span>)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(model.summary())</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span> <span class="op">+</span> <span class="st">"="</span><span class="op">*</span><span class="dv">80</span> <span class="op">+</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Summary for BMATRUSER:
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:                      y   R-squared:                       0.037
+Model:                            OLS   Adj. R-squared:                  0.031
+Method:                 Least Squares   F-statistic:                     6.752
+Date:                Wed, 04 Dec 2024   Prob (F-statistic):           0.000178
+Time:                        21:31:55   Log-Likelihood:                -1719.5
+No. Observations:                 532   AIC:                             3447.
+Df Residuals:                     528   BIC:                             3464.
+Df Model:                           3                                         
+Covariance Type:            nonrobust                                         
+==============================================================================
+                 coef    std err          t      P&gt;|t|      [0.025      0.975]
+------------------------------------------------------------------------------
+const          0.2379      0.273      0.873      0.383      -0.298       0.773
+Mkt-RF         0.0682      0.064      1.061      0.289      -0.058       0.194
+SMB            0.3601      0.094      3.832      0.000       0.175       0.545
+HML            0.2472      0.098      2.520      0.012       0.055       0.440
+==============================================================================
+Omnibus:                       44.657   Durbin-Watson:                   2.114
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):              200.812
+Skew:                          -0.152   Prob(JB):                     2.48e-44
+Kurtosis:                       5.994   Cond. No.                         4.74
+==============================================================================
+
+Notes:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+
+================================================================================
+
+Summary for INDUSUSER:
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:                      y   R-squared:                       0.038
+Model:                            OLS   Adj. R-squared:                  0.032
+Method:                 Least Squares   F-statistic:                     6.893
+Date:                Wed, 04 Dec 2024   Prob (F-statistic):           0.000147
+Time:                        21:31:55   Log-Likelihood:                -1638.5
+No. Observations:                 532   AIC:                             3285.
+Df Residuals:                     528   BIC:                             3302.
+Df Model:                           3                                         
+Covariance Type:            nonrobust                                         
+==============================================================================
+                 coef    std err          t      P&gt;|t|      [0.025      0.975]
+------------------------------------------------------------------------------
+const          0.4389      0.234      1.875      0.061      -0.021       0.899
+Mkt-RF         0.0983      0.055      1.781      0.075      -0.010       0.207
+SMB            0.2876      0.081      3.564      0.000       0.129       0.446
+HML            0.2062      0.084      2.448      0.015       0.041       0.372
+==============================================================================
+Omnibus:                       46.000   Durbin-Watson:                   2.071
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):              134.235
+Skew:                          -0.388   Prob(JB):                     7.10e-30
+Kurtosis:                       5.336   Cond. No.                         4.74
+==============================================================================
+
+Notes:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+
+================================================================================
+
+Summary for CNSMGUSER:
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:                      y   R-squared:                       0.048
+Model:                            OLS   Adj. R-squared:                  0.043
+Method:                 Least Squares   F-statistic:                     8.891
+Date:                Wed, 04 Dec 2024   Prob (F-statistic):           9.32e-06
+Time:                        21:31:55   Log-Likelihood:                -1611.1
+No. Observations:                 532   AIC:                             3230.
+Df Residuals:                     528   BIC:                             3247.
+Df Model:                           3                                         
+Covariance Type:            nonrobust                                         
+==============================================================================
+                 coef    std err          t      P&gt;|t|      [0.025      0.975]
+------------------------------------------------------------------------------
+const          0.1723      0.222      0.775      0.439      -0.264       0.609
+Mkt-RF         0.0210      0.052      0.401      0.689      -0.082       0.124
+SMB            0.3394      0.077      4.428      0.000       0.189       0.490
+HML            0.2635      0.080      3.293      0.001       0.106       0.421
+==============================================================================
+Omnibus:                       53.849   Durbin-Watson:                   1.844
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):              227.299
+Skew:                          -0.329   Prob(JB):                     4.39e-50
+Kurtosis:                       6.134   Cond. No.                         4.74
+==============================================================================
+
+Notes:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+
+================================================================================
+
+Summary for FINANUSER:
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:                      y   R-squared:                       0.050
+Model:                            OLS   Adj. R-squared:                  0.044
+Method:                 Least Squares   F-statistic:                     9.198
+Date:                Wed, 04 Dec 2024   Prob (F-statistic):           6.11e-06
+Time:                        21:31:55   Log-Likelihood:                -1663.0
+No. Observations:                 532   AIC:                             3334.
+Df Residuals:                     528   BIC:                             3351.
+Df Model:                           3                                         
+Covariance Type:            nonrobust                                         
+==============================================================================
+                 coef    std err          t      P&gt;|t|      [0.025      0.975]
+------------------------------------------------------------------------------
+const          0.3266      0.245      1.332      0.183      -0.155       0.808
+Mkt-RF         0.1274      0.058      2.205      0.028       0.014       0.241
+SMB            0.3515      0.084      4.161      0.000       0.186       0.518
+HML            0.2071      0.088      2.347      0.019       0.034       0.380
+==============================================================================
+Omnibus:                       76.752   Durbin-Watson:                   2.052
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):              325.396
+Skew:                          -0.566   Prob(JB):                     2.19e-71
+Kurtosis:                       6.660   Cond. No.                         4.74
+==============================================================================
+
+Notes:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+
+================================================================================
+
+Summary for TECNOUSER:
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:                      y   R-squared:                       0.032
+Model:                            OLS   Adj. R-squared:                  0.026
+Method:                 Least Squares   F-statistic:                     5.729
+Date:                Wed, 04 Dec 2024   Prob (F-statistic):           0.000731
+Time:                        21:31:55   Log-Likelihood:                -1767.1
+No. Observations:                 532   AIC:                             3542.
+Df Residuals:                     528   BIC:                             3559.
+Df Model:                           3                                         
+Covariance Type:            nonrobust                                         
+==============================================================================
+                 coef    std err          t      P&gt;|t|      [0.025      0.975]
+------------------------------------------------------------------------------
+const          0.5040      0.298      1.691      0.091      -0.082       1.090
+Mkt-RF         0.1124      0.070      1.599      0.110      -0.026       0.250
+SMB            0.3170      0.103      3.085      0.002       0.115       0.519
+HML            0.2829      0.107      2.637      0.009       0.072       0.494
+==============================================================================
+Omnibus:                       23.853   Durbin-Watson:                   2.071
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):               56.624
+Skew:                          -0.175   Prob(JB):                     5.06e-13
+Kurtosis:                       4.559   Cond. No.                         4.74
+==============================================================================
+
+Notes:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+
+================================================================================
+</code></pre>
+</div>
+</div>
+<ol start="2" type="a">
+<li>(2 points) For which portfolios the coefficients of SMB and HML are significantly different from zero?</li>
+</ol>
+<p>The coefficients of <code>SMB</code> and <code>HML</code> are significantly different from zero for all five portfolios (<code>BMATRUSER</code>, <code>INDUSUSER</code>, <code>CNSMGUSER</code>, <code>FINANUSER</code>, and <code>TECNOUSER</code>). This is evidenced by p-values below 0.05 across all regressions, indicating that the <code>SMB</code> and <code>HML</code> factors have a statistically significant impact on the excess returns of these portfolios. These results suggest that both size (<code>SMB</code>) and value (<code>HML</code>) effects play a meaningful role in explaining the variation in returns for all the portfolios analyzed.</p>
+<ol start="3" type="a">
+<li>(3 points) Are there omitted variable biases in the original CAPM regressions for the 5 portfolios?</li>
+</ol>
+<p>Yes, there are omitted variable biases in the original CAPM regressions for the five portfolios. Comparing the results of the original CAPM regressions (with only <code>Mkt-RF</code>) to the expanded three-factor model (with <code>Mkt-RF</code>, <code>SMB</code>, and <code>HML</code>), we observe significant changes in the coefficient estimates and their significance levels for <code>Mkt-RF</code>. For example, in the CAPM model, the <code>Mkt-RF</code> coefficient was significant for some portfolios, such as <code>INDUSUSER</code> and <code>FINANUSER</code>, but became less significant or insignificant in the three-factor model. Additionally, the inclusion of <code>SMB</code> and <code>HML</code> significantly improves the explanatory power of the model, as evidenced by higher R-squared values and significant coefficients for <code>SMB</code> and <code>HML</code> in all portfolios. These changes suggest that the exclusion of <code>SMB</code> and <code>HML</code> in the CAPM regressions biased the results, confirming omitted variable bias.</p>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
